@@ -9,7 +9,9 @@ const signupRouter = require('./routes/signupRouter')
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production' 
+        ? 'https://members-only-production-7933.up.railway.app'
+        : 'http://localhost:5173',
     credentials: true
 }))
 
@@ -26,6 +28,13 @@ if (process.env.NODE_ENV === 'prod'){
         res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
     })
 }
+
+app.use((err, req, res, next) => {
+    console.error('Error:', err)
+    res.status(500).json({ 
+        errors: [{ msg: 'Something went wrong on the server' }] 
+    })
+})
 
 app.listen(process.env.PORT, (err) => {
     if (err){
