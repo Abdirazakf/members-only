@@ -1,8 +1,7 @@
 const {Router} = require('express')
+const { checkValidUserPost } = require('../controllers/signupController')
 const signupRouter = Router()
 
-signupRouter.get('/', (req,res) => {
-    res.send('Signup Page')
-})
+signupRouter.post('/', checkValidUserPost)
 
 module.exports = signupRouter
