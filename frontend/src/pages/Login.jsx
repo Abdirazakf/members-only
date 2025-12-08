@@ -14,7 +14,7 @@ export default function Login(){
                         </p>
                     </div>
                     
-                    <form action="/login" method="post" className="space-y-4">
+                    <form action="/login" method="get" className="space-y-4">
                         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
                         
                         <label htmlFor="email" className="flex flex-col space-y-2">
