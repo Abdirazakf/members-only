@@ -3,7 +3,7 @@ import {LockKeyhole} from 'lucide-react'
 
 export default function Navbar() {
     return (
-        <div className="mx-auto bg-gray-900 p-4 scheme-dark">
+        <div className="mx-auto p-4 scheme-dark whitespace-nowrap border-b border-solid border-white/10 px-4 sm:px-10 py-4">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center justify-start gap-2">
                     <LockKeyhole className="size-7 text-primary flex-shrink-0" color="#607afb"/>

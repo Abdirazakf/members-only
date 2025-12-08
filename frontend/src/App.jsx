@@ -6,7 +6,7 @@ import SignUp from "./pages/SignUp"
 
 export default function App() {
     return(
-        <div className="min-h-screen bg-base-200">
+        <div className="min-h-screen bg-slate-950 scheme-dark">
             <Navbar />
             <Routes>
                 <Route path="/login" element={<Login/>} />
