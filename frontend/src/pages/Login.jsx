@@ -1,6 +1,10 @@
+import { useState } from "react"
 import { Link } from "react-router"
+import {Eye, EyeOff} from 'lucide-react'
 
 export default function Login(){
+    const [showPass, setShowPass] = useState(false)
+
     return(
         <main className="flex flex-1 justify-center items-center py-12 px-4">
             <div className="w-full max-w-md bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl shadow-2xl p-6 sm:p-8">
@@ -39,7 +43,7 @@ export default function Login(){
                             <div className="relative flex w-full flex-1 items-stretch">
                                 <span className="material-symbols-outlined text-slate-300 absolute left-3 top-1/2 -translate-y-1/2">lock</span>
                                 <input 
-                                    type="password" 
+                                    type={showPass ? "text" : "password"} 
                                     name="pass" 
                                     id="pass" 
                                     placeholder="Enter your password" 
@@ -49,8 +53,8 @@ export default function Login(){
                                     required
                                 />
                                 <button type="button" className="flex items-center justify-center absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 
-                                hover:text-white transition-colors">
-                                    <span className="material-symbols-outlined">visibility</span>
+                                hover:text-white transition-colors" onClick={() => setShowPass(!showPass)}>
+                                    {showPass ? <EyeOff className='w-5 h-5'/> : <Eye className='w-5 h-5' />}
                                 </button>
                             </div>
                         </label>
