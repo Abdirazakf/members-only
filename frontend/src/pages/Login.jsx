@@ -29,6 +29,7 @@ export default function Login(){
                                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden 
                                         rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-white/20 bg-transparent h-12 
                                         placeholder:text-neutral-500 pl-10 pr-4 text-base font-normal leading-normal transition-colors focus:border-primary"
+                                    required
                                 />
                             </div>
                         </label>
@@ -45,6 +46,7 @@ export default function Login(){
                                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden 
                                         rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-white/20 bg-transparent h-12 
                                         placeholder:text-neutral-500 pl-10 pr-4 text-base font-normal leading-normal transition-colors focus:border-primary"
+                                    required
                                 />
                                 <button type="button" className="flex items-center justify-center absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 
                                 hover:text-white transition-colors">
