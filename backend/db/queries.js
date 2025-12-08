@@ -19,10 +19,12 @@ async function createUser({firstName, lastName, email, pass}){
         const newUser = await client.query(
             `INSERT INTO users (email, password, first_name, last_name)
             VALUES ($1, $2, $3, $4)
-            RETURNING id`,[email,pass,firstName,lastName]
+            RETURNING id, email, first_name, last_name`
+            ,[email,pass,firstName,lastName]
         )
 
-        return newUser
+        await client.query('COMMIT')
+        return newUser.rows[0]
     } catch(err){
         await client.query('ROLLBACK')
         throw err
