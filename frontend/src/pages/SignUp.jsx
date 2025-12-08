@@ -44,7 +44,6 @@ export default function SignUp(){
                                 className="flex w-full rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 
                                     border border-slate-600 bg-slate-700/50 h-12 px-4 text-base font-normal leading-normal 
                                     placeholder:text-slate-500 transition-colors focus:border-primary"
-                                required
                             />
                         </div>
                     </div>
