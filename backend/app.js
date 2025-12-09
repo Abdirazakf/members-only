@@ -9,11 +9,6 @@ const signupRouter = require('./routes/signupRouter')
 const app = express()
 const PORT = process.env.PORT
 
-console.log('Starting server...')
-console.log('Environment:', process.env.NODE_ENV)
-console.log('Port:', PORT)
-console.log('Database URL exists:', process.env.DATABASE_URL)
-
 app.use(cors({
     origin: process.env.NODE_ENV === 'prod' 
         ? 'https://members-only-production-7933.up.railway.app'
