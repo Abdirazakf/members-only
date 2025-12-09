@@ -18,8 +18,8 @@ export default function Login(){
         const formData = new FormData(event.target)
         
         const data = {
-            email: formData.get('email'),
-            pass: formData.get('pass')
+            username: formData.get('email'),
+            password: formData.get('pass')
         }
 
         try {
@@ -28,18 +28,25 @@ export default function Login(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(data)
             })
 
             const result = await response.json()
 
             if (!response.ok){
-                result.errors.forEach(error => {
-                    toast.error(error.msg)
-                })
+                if (result.message) {
+                    toast.error(result.message)
+                } else if (result.errors){
+                    result.errors.forEach(error => {
+                        toast.error(error.msg)
+                    })
+                } else {
+                    toast.error('Login failed. Please try again.')
+                }
             } else {
                 toast.success('Login Successful')
-                setTimeout(() => navigate('/', 500))
+                setTimeout(() => navigate('/'), 500)
             }
         } catch(err){
             console.error('Login Error:', err)
