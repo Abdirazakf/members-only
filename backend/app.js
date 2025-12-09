@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const pg = require('pg')
+const pgSession = require('connect-pg-simple')(session)
 const cors = require('cors')
 const passport = require('./config/passport')
 
@@ -26,16 +27,21 @@ app.use(cors({
     origin: process.env.NODE_ENV === 'prod' 
         ? 'https://members-only-production-7933.up.railway.app'
         : 'http://localhost:5173',
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: sessionStore,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: 1000 * 60 * 60 * 24,
+        secure: process.env.NODE_ENV === 'prod',
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'prod' ? 'none' : 'lax'
     }
 }))
 
