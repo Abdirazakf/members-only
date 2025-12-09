@@ -1,6 +1,7 @@
 import {Routes, Route} from "react-router-dom"
 import {Toaster} from "react-hot-toast"
 import Navbar from "./components/Navbar"
+import Homepage from "./pages/Hompage"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 
@@ -11,6 +12,7 @@ export default function App() {
             <Routes>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/sign-up" element={<SignUp/>} />
+                <Route path="/" element={<Homepage/>} />
             </Routes>
 
             <Toaster />
