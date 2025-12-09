@@ -4,7 +4,6 @@ import {Eye, EyeOff} from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
-console.log(API)
 
 export default function SignUp(){
     const [showPass, setShowPass] = useState(false)
@@ -17,6 +16,7 @@ export default function SignUp(){
         setLoading(true)
 
         const formData = new FormData(event.target)
+        
         const data = {
             first_name: formData.get('first_name'),
             last_name: formData.get('last_name'),

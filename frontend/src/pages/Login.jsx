@@ -1,9 +1,53 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import {Eye, EyeOff} from 'lucide-react'
+import {ThreeDot} from 'react-loading-indicators'
+import toast from "react-hot-toast"
+
+const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
 
 export default function Login(){
     const [showPass, setShowPass] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+
+    const handleSubmit = async(event) => {
+        event.preventDefault()
+        setLoading(true)
+
+        const formData = new FormData(event.target)
+        
+        const data = {
+            email: formData.get('email'),
+            pass: formData.get('pass')
+        }
+
+        try {
+            const response = await fetch(`${API}/api/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok){
+                result.errors.forEach(error => {
+                    toast.error(error.msg)
+                })
+            } else {
+                toast.success('Login Successful')
+                setTimeout(() => navigate('/', 500))
+            }
+        } catch(err){
+            console.error('Login Error:', err)
+            toast.error('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return(
         <main className="flex flex-1 justify-center items-center py-12 px-4">
@@ -18,7 +62,7 @@ export default function Login(){
                         </p>
                     </div>
                     
-                    <form action="/login" method="get" className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
                         
                         <label htmlFor="email" className="flex flex-col space-y-2">
@@ -61,7 +105,7 @@ export default function Login(){
                         <button type="submit" className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
                         focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
                         text-white bg-[#3a4df7] hover:bg-primary/90 rounded-lg text-base font-semibold">
-                            Log In
+                            {loading ? <ThreeDot color="white" size="small" /> : <span>Login</span> }
                         </button>
                         <div className="mt-8 text-center flex justify-center gap-2">
                             <p className="text-sm text-slate-400">
