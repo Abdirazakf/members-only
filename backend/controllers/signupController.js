@@ -9,7 +9,7 @@ const validateSignUp = [
     .withMessage('First Name is required'),
     body('last_name').optional().trim().notEmpty()
     .withMessage('Last Name is required'),
-    body('email').trim().isEmail().normalizeEmail()
+    body('email').trim().isEmail()
     .withMessage(emailErr),
     body('pass').trim().isStrongPassword({
         minLength: 6,
