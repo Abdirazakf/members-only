@@ -33,7 +33,25 @@ async function createUser({firstName, lastName, email, pass}){
     }
 }
 
+async function getUser(username) {
+    const {rows} = await pool.query(
+        `SELECT * FROM users WHERE email = $1`, [username]
+    )
+
+    return rows[0]
+}
+
+async function getUserByID(id) {
+    const {rows} = await pool.query(
+        `SELECT * FROM users WHERE id = $1`, [id]
+    )
+
+    return rows[0]
+}
+
 module.exports = {
     checkEmail,
-    createUser
+    createUser,
+    getUser,
+    getUserByID
 }
