@@ -58,7 +58,7 @@ export default function Login(){
                                 </button>
                             </div>
                         </label>
-                        <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
+                        <button type="submit" className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
                         focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
                         text-white bg-[#3a4df7] hover:bg-primary/90 rounded-lg text-base font-semibold">
                             Log In
