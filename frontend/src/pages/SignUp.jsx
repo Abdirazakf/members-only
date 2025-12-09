@@ -42,7 +42,7 @@ export default function SignUp(){
                 })
             } else {
                 toast.success('Account created successfully!')
-                setTimeout(() => navigate('/'), 500)
+                setTimeout(() => navigate('/login'), 500)
             }
         } catch(err){
             console.error('Signup error:', err)
