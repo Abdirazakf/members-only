@@ -13,18 +13,14 @@ export default function Navbar() {
                         </h1>
                     </Link>
                 </div>
-            <nav className="flex items-center gap-4">
-                <Link to={'/login'}>
-                    <a className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:bg-white/10 h-10 px-4 py-2 rounded-lg text-sm font-medium">
+                <nav className="flex items-center gap-4">
+                    <Link to={'/login'} className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:bg-white/10 h-10 px-4 py-2 rounded-lg text-sm font-medium">
                         Login
-                    </a>
-                </Link>
-                <Link to={'/sign-up'}>
-                    <a className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:bg-white/10 h-10 px-4 py-2 rounded-lg text-sm font-medium">
+                    </Link>
+                    <Link to={'/sign-up'} className="inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-white hover:bg-white/10 h-10 px-4 py-2 rounded-lg text-sm font-medium">
                         Sign Up
-                    </a>
-                </Link>
-            </nav>
+                    </Link>
+                </nav>
             </div>
         </div>
     )
