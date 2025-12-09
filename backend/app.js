@@ -7,6 +7,12 @@ const loginRouter = require('./routes/loginRouter')
 const signupRouter = require('./routes/signupRouter')
 
 const app = express()
+const PORT = process.env.PORT
+
+console.log('Starting server...')
+console.log('Environment:', process.env.NODE_ENV)
+console.log('Port:', PORT)
+console.log('Database URL exists:', process.env.DATABASE_URL)
 
 app.use(cors({
     origin: process.env.NODE_ENV === 'prod' 
@@ -21,14 +27,6 @@ app.use(express.json())
 app.use('/api/login', loginRouter)
 app.use('/api/sign-up', signupRouter)
 
-if (process.env.NODE_ENV === 'prod'){
-    app.use(express.static(path.join(__dirname, '../frontend/dist')))
-
-    app.use((req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
-    })
-}
-
 app.use((err, req, res, next) => {
     console.error('Error:', err)
     res.status(500).json({ 
@@ -36,7 +34,7 @@ app.use((err, req, res, next) => {
     })
 })
 
-app.listen(process.env.PORT, (err) => {
+app.listen(PORT, (err) => {
     if (err){
         console.log(err)
     }
