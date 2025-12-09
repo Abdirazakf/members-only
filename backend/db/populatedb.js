@@ -27,13 +27,22 @@ async function main(){
     console.log('Creating tables...')
     
     const client = new Client({
-        connectionString: process.env.DB_STRING
+        connectionString: process.env.PROD_DB,
+        ssl: {
+            rejectUnauthorized: false
+        }
     })
 
-    await client.connect()
-    await client.query(SQL)
-    await client.end()
-    console.log('Done')
+    try {
+        await client.connect()
+        await client.query(SQL)
+
+    } catch(err){
+        console.error('Error:', err)
+    } finally {
+        await client.end()
+        console.log('Done')
+    }
 }
 
 main()
