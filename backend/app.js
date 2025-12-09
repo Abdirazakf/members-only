@@ -8,6 +8,7 @@ const passport = require('./config/passport')
 
 const loginRouter = require('./routes/loginRouter')
 const signupRouter = require('./routes/signupRouter')
+const authRouter = require('./routes/authRouter')
 
 const app = express()
 const PORT = process.env.PORT
@@ -58,6 +59,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/login', loginRouter)
 app.use('/api/sign-up', signupRouter)
+app.use('/api/auth', authRouter)
 
 app.use((err, req, res, next) => {
     console.error('Error:', err)
