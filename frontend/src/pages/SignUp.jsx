@@ -1,10 +1,53 @@
 import { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {Eye, EyeOff} from 'lucide-react'
+import toast from 'react-hot-toast'
 
 export default function SignUp(){
     const [showPass, setShowPass] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+
+    const handleSubmit = async(event) => {
+        event.preventDefault()
+        setLoading(true)
+
+        const formData = new FormData(event.target)
+        const data = {
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            email: formData.get('email'),
+            pass: formData.get('pass'),
+            confirm:formData.get('confirm')
+        }
+
+        try {
+            const response = await fetch('/api/sign-up', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok){
+                result.errors.forEach(error => {
+                    toast.error(error.msg)
+                })
+            } else {
+                toast.success('Account created successfully!')
+                setTimeout(() => navigate('/'), 500)
+            }
+        } catch(err){
+            console.error('Signup error:', err)
+            toast.error('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return(
         <main className="flex flex-1 justify-center items-center py-12 px-4">
@@ -13,12 +56,12 @@ export default function SignUp(){
                     <h1 className="text-white text-4xl font-bold leading-tight tracking-tight">
                         Create Your Account
                     </h1>
-                    <p class="text-slate-400 text-base font-normal leading-normal">
+                    <p className="text-slate-400 text-base font-normal leading-normal">
                         Start sharing and connecting with your community
                     </p>
                 </div>
 
-                <form action="/sign-up" method="post" className='space-y-6'>
+                <form onSubmit={handleSubmit} className='space-y-6'>
                 {/* First and Last Name Row */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className='flex flex-col space-y-2'>
@@ -111,10 +154,13 @@ export default function SignUp(){
                         </div>
                     </div>
 
-                    <button type="submit" className='inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
+                    <button disabled={loading} type="submit" className='inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
                         focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
                         text-white bg-[#3a4df7] hover:bg-primary/90 rounded-lg text-base font-semibold'>
-                            Create Account
+                            {loading ? 
+                                <span>Creating Account...</span>
+                                : <span>Create Account</span>
+                            }
                     </button>
 
                     <div className="mt-8 text-center flex justify-center gap-2">
