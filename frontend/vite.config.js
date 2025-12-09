@@ -11,10 +11,6 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       }
-    },
-    allowedHosts: ['members-only-production-7933.up.railway.app']
-  },
-  preview: {
-    allowedHosts: ['members-only-production-7933.up.railway.app']
+    }
   }
 })
