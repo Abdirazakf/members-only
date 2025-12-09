@@ -3,7 +3,8 @@ import {Link, useNavigate} from 'react-router-dom'
 import {Eye, EyeOff} from 'lucide-react'
 import toast from 'react-hot-toast'
 
-const API = import.meta.env.PROD_API_URL 
+const API = import.meta.env.PROD_API_URL
+console.log(API)
 
 export default function SignUp(){
     const [showPass, setShowPass] = useState(false)
