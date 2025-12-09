@@ -20,7 +20,8 @@ const pool = new pg.Pool({
 
 const sessionStore = new pgSession({
     pool: pool,
-    tableName: 'session'
+    tableName: 'session',
+    createTableIfMissing: true,
 })
 
 app.use(cors({
