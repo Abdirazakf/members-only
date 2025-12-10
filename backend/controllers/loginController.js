@@ -21,7 +21,14 @@ exports.authenticateUser = (req, res, next) => {
             return res.json({
                 success: true,
                 message: 'Login successful',
-                user: {id: user.id, username: user.username}
+                user: {
+                    id: user.id, 
+                    email: user.email,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    is_member: user.is_member,
+                    is_admin: user.is_admin
+                }
             })
         })
     })(req, res, next)
