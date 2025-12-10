@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 
 export default function Navbar() {
     const navigate = useNavigate()
-    const { user, auth, logoutUser} = useAuthStore()
+    const { user, auth, loading, logoutUser} = useAuthStore()
 
     const handleLogout = async () => {
         await logoutUser()
@@ -25,7 +25,9 @@ export default function Navbar() {
                     </Link>
                 </div>
                 <nav className="flex items-center gap-4">
-                    {auth ? (
+                    {loading ? (
+                        <div className="h-10 w-32 bg-slate-700/50 animate-pulse rounded-lg"></div>
+                    ) : auth ? (
                         <>
                             <div className="flex items-center gap-2 text-white">
                                 <User className="w-5 h-5" />
