@@ -4,6 +4,7 @@ const session = require('express-session')
 const pg = require('pg')
 const pgSession = require('connect-pg-simple')(session)
 const cors = require('cors')
+const path = require('path')
 const passport = require('./config/passport')
 
 const loginRouter = require('./routes/loginRouter')
@@ -11,7 +12,7 @@ const signupRouter = require('./routes/signupRouter')
 const authRouter = require('./routes/authRouter')
 
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 const connectionString = process.env.DATABASE_URL || process.env.DB_STRING
 
@@ -26,12 +27,8 @@ const sessionStore = new pgSession({
 })
 
 app.use(cors({
-    origin: process.env.NODE_ENV === 'prod' 
-        ? 'https://members-only-production-7933.up.railway.app'
-        : 'http://localhost:5173',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: true,
+    credentials: true
 }))
 
 app.use(session({
@@ -43,7 +40,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24,
         secure: process.env.NODE_ENV === 'prod',
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'prod' ? 'none' : 'lax'
+        sameSite: 'lax'
     }
 }))
 
@@ -60,6 +57,14 @@ app.get('/', (req, res) => {
 app.use('/api/login', loginRouter)
 app.use('/api/sign-up', signupRouter)
 app.use('/api/auth', authRouter)
+
+if (process.env.NODE_ENV === 'prod'){
+    app.use(express.static(path.join(__dirname, '../frontend/dist')))
+    
+    app.use((req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
+    })
+}
 
 app.use((err, req, res, next) => {
     console.error('Error:', err)
