@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar"
 import Homepage from "./pages/Hompage"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import Info from './pages/Info'
 
 export default function App() {
     const checkAuth = useAuthStore((state) => state.checkAuth)
@@ -33,6 +34,8 @@ export default function App() {
                         <SignUp/>
                     </GuestRoute>
                 } />
+
+                <Route path="/info" element={<Info />} />
                 
                 <Route path="/" element={<Homepage/>} />
             </Routes>
