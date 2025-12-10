@@ -2,6 +2,8 @@ import { useEffect } from "react"
 import { useAuthStore } from "./states/useAuthStore"
 import {Routes, Route} from "react-router-dom"
 import {Toaster} from "react-hot-toast"
+import GuestRoute from './components/GuestRoute'
+import AuthRoute from './components/AuthRoute'
 import Navbar from "./components/Navbar"
 import Homepage from "./pages/Hompage"
 import Login from "./pages/Login"
@@ -18,8 +20,20 @@ export default function App() {
         <div className="min-h-screen bg-slate-950 scheme-dark">
             <Navbar />
             <Routes>
-                <Route path="/login" element={<Login/>} />
-                <Route path="/sign-up" element={<SignUp/>} />
+                <Route path="/login" 
+                element={
+                    <GuestRoute>
+                        <Login/>
+                    </GuestRoute>
+                } />
+
+                <Route path="/sign-up" 
+                element={
+                    <GuestRoute>
+                        <SignUp/>
+                    </GuestRoute>
+                } />
+                
                 <Route path="/" element={<Homepage/>} />
             </Routes>
 
