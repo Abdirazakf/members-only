@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useAuthStore } from '../states/useAuthStore'
 import {BadgePlus, Users, ChevronDown, PenLine} from 'lucide-react'
-import Footer from '../components/Footer'
 import Post from './Post'
 import AnimatedList from './ui/AnimatedList'
 
@@ -80,14 +79,14 @@ export default function AuthHome(){
                                         <span>{selected}</span>
                                         <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                                     </button>
-                            
+
                                     {isOpen && (
                                         <>
                                             <div 
                                                 className="fixed inset-0 z-10" 
                                                 onClick={() => setIsOpen(false)}
                                             />
-                        
+
                                             <div className="absolute left-0 z-20 mt-2 w-full sm:w-56 origin-top-left rounded-lg bg-slate-900 shadow-lg ring-1 ring-slate-700/50 focus:outline-none">
                                                 <div className="py-1">
                                                     {circles.map((circle, index) => (
@@ -146,8 +145,6 @@ export default function AuthHome(){
                     <span className="truncate text-base font-bold sm:hidden">Create</span>
                 </button>
             </div>
-
-            <Footer/>
         </>
     )
 }

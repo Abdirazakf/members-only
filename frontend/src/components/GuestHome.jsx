@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Post from './Post'
 import AnimatedList from './ui/AnimatedList'
+import Footer from './Footer'
 
 export default function GuestHome(){
     const posts = [
@@ -82,6 +83,7 @@ export default function GuestHome(){
                     />
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
