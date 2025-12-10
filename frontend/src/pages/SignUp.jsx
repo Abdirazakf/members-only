@@ -3,8 +3,6 @@ import {Link, useNavigate} from 'react-router-dom'
 import {Eye, EyeOff} from 'lucide-react'
 import toast from 'react-hot-toast'
 
-const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
-
 export default function SignUp(){
     const [showPass, setShowPass] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
@@ -26,7 +24,7 @@ export default function SignUp(){
         }
 
         try {
-            const response = await fetch(`${API}/api/sign-up`, {
+            const response = await fetch('/api/sign-up', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

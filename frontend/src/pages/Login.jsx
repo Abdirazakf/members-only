@@ -5,8 +5,6 @@ import {Eye, EyeOff} from 'lucide-react'
 import {ThreeDot} from 'react-loading-indicators'
 import toast from "react-hot-toast"
 
-const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
-
 export default function Login(){
     const setUser = useAuthStore((state) => state.setUser)
     const [showPass, setShowPass] = useState(false)
@@ -25,7 +23,7 @@ export default function Login(){
         }
 
         try {
-            const response = await fetch(`${API}/api/login`, {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
