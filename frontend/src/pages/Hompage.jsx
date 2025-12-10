@@ -7,10 +7,14 @@ export default function Homepage(){
     const {auth, loading} = useAuthStore()
 
     if (loading){
-        <div className="flex items-center justify-center min-h-screen">
-            <ThreeDot color="white" size="medium" />
-        </div>
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <ThreeDot color="white" size="medium" />
+            </div>
+        )
+    } else if (auth) {
+        return <AuthHome />
+    } else {
+        return <GuestHome />
     }
-
-    return auth ? <AuthHome /> : <GuestHome />
 }
