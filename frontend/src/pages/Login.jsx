@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useAuthStore } from "../states/useAuthStore"
 import { Link, useNavigate } from "react-router"
 import {Eye, EyeOff} from 'lucide-react'
 import {ThreeDot} from 'react-loading-indicators'
@@ -7,6 +8,7 @@ import toast from "react-hot-toast"
 const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
 
 export default function Login(){
+    const setUser = useAuthStore((state) => state.setUser)
     const [showPass, setShowPass] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -45,6 +47,7 @@ export default function Login(){
                     toast.error('Login failed. Please try again.')
                 }
             } else {
+                setUser(result.user)
                 toast.success('Login Successful')
                 setTimeout(() => navigate('/'), 500)
             }
