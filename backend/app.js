@@ -50,10 +50,6 @@ app.use(passport.session())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Members Only API' })
-})
-
 app.use('/api/login', loginRouter)
 app.use('/api/sign-up', signupRouter)
 app.use('/api/auth', authRouter)
