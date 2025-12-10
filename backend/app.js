@@ -14,6 +14,11 @@ const authRouter = require('./routes/authRouter')
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Trust Railway's proxy
+if (process.env.NODE_ENV === 'prod') {
+    app.set('trust proxy', 1)
+}
+
 const connectionString = process.env.DATABASE_URL || process.env.DB_STRING
 
 const pool = new pg.Pool({
