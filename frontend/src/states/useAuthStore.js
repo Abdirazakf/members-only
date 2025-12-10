@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import toast from 'react-hot-toast'
 
-const API = import.meta.env.VITE_PROD_API_URL || 'http://localhost:3000'
-
 export const useAuthStore = create((set) => ({
     user: null,
     auth: false,
@@ -10,7 +8,7 @@ export const useAuthStore = create((set) => ({
 
     checkAuth: async () => {
         try {
-            const response = await fetch(`${API}/api/auth/status`, {
+            const response = await fetch('/api/auth/status', {
                 credentials: 'include'
             })
 
@@ -39,7 +37,7 @@ export const useAuthStore = create((set) => ({
 
     logoutUser: async () => {
         try {
-            await fetch(`${API}/api/auth/logout`, {
+            await fetch('/api/auth/logout', {
                 method: 'POST',
                 credentials: 'include'
             })
