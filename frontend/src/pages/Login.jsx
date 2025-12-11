@@ -37,10 +37,6 @@ export default function Login(){
             if (!response.ok){
                 if (result.message) {
                     toast.error(result.message)
-                } else if (result.errors){
-                    result.errors.forEach(error => {
-                        toast.error(error.msg)
-                    })
                 } else {
                     toast.error('Login failed. Please try again.')
                 }
