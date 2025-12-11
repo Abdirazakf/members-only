@@ -118,11 +118,11 @@ export default function AuthHome(){
                                     <span className="hidden sm:inline">Join a Circle</span>
                                     <span className="sm:hidden">Join</span>
                                 </Link>
-                                <button className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
+                                <Link to={'/create'} className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
                                     <BadgePlus className='w-4 h-4'/>
                                     <span className="hidden sm:inline">Create New</span>
                                     <span className="sm:hidden">Create</span>
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
