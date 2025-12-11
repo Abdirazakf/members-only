@@ -7,29 +7,49 @@ export default function GuestHome(){
     const posts = [
         {
             id: 1,
-            message: "I've been thinking a lot about the future of remote work. It's amazing how much has changed in just a few years.",
-            time: "Posted 2 hours ago"
+            message: "This is the very first message on the platform. Welcome everyone!",
+            time: "Posted 2 days ago",
+            title: "First Post!"
         },
         {
             id: 2,
-            message: "Just finished a great book and I need recommendations! What's everyone reading?",
-            time: "Posted 5 hours ago"
+            username: "Jane Doe",
+            message: "Here is another example of a message post. The content is clearly separated and easy to read within its own card.",
+            time: "Posted 1 day ago",
+            title: "Another Message Title"
         },
         {
             id: 3,
-            message: "Thinking about starting a new side project with ExpressJS and PostgreSQL. Any cool project ideas to get the inspiration flowing?",
-            time: "Posted 8 hours ago"
+            username: "Author's Name",
+            message: "The main text content of the post. This is where the full message body would be displayed for the user to read. Message Body continued if necessary.",
+            time: "Posted 5 hours ago",
+            title: "Message Title"
         },
         {
             id: 4,
-            message: "What's the best way to manage state in a complex React application? Looking for opinions beyond the usual Redux vs. Context debate.",
-            time: "Posted 1 day ago"
+            username: "John Smith",
+            message: "Just sharing some thoughts on the recent updates. Really enjoying the new features!",
+            time: "Posted 3 hours ago",
+            title: "Recent Updates"
+        },
+        {
+            id: 5,
+            username: "Sarah Johnson",
+            message: "Has anyone tried the new features? I'm curious about the performance improvements.",
+            time: "Posted 2 hours ago",
+            title: "Performance Question"
+        },
+        {
+            id: 6,
+            username: "Mike Chen",
+            message: "I've been working on a similar project and would love to share some insights with the community.",
+            time: "Posted 1 hour ago",
+            title: "Project Insights"
         }
     ]
 
     const postItems = posts.map((post) => (
         <Post 
-            username={post.username}
             message={post.message}
             time={post.time}
         />
@@ -37,7 +57,7 @@ export default function GuestHome(){
 
     return(
         <>
-            <div className="flex flex-col gap-6 px-4 pt-16 text-center @[480px]:gap-8">
+            <div className="flex flex-col gap-6 px-4 pt-10 pb-5 text-center @[480px]:gap-8">
                 <div className="flex flex-col gap-2">
                     <h1 className="text-white text-4xl font-bold leading-tight tracking-tight">
                         Speak Freely, Connect Anonymously.
