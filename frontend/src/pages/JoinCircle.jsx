@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router"
 import { ThreeDot } from 'react-loading-indicators'
 
 export default function Circle(){
@@ -33,14 +34,21 @@ export default function Circle(){
                         required
                         />
                     </div>
-                    <button disabled={loading} type="submit" className='inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none 
-                    focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
+                    <button disabled={loading} type="submit" className='inline-flex items-center justify-center whitespace-nowrap 
+                    ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 
+                    focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
                     text-white bg-[#3a4df7] hover:bg-primary/90 rounded-lg text-base font-semibold'>
                         {loading ? 
                             <ThreeDot color="white" size="small" />
                             : <span>Join Circle</span>
                         }
                     </button>
+                        <Link to={'/'} className="inline-flex items-center justify-center whitespace-nowrap 
+                    ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 
+                    focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
+                    text-white bg-slate-800 hover:bg-white/10 rounded-lg text-base font-semibold">
+                            Cancel
+                        </Link>
                 </form>
             </div>
         </div>
