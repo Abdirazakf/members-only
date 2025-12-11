@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuthStore } from '../states/useAuthStore'
+import { Link } from 'react-router'
 import {BadgePlus, Users, ChevronDown, PenLine} from 'lucide-react'
 import Post from './Post'
 import AnimatedList from './ui/AnimatedList'
@@ -112,11 +113,11 @@ export default function AuthHome(){
                                 </p>
                             </div>
                             <div className="flex items-center gap-2 w-full sm:w-auto">
-                                <button className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-700/50 dark:border-slate-700/50 bg-transparent px-4 text-sm font-bold text-white dark:text-white hover:bg-slate-700/30 transition-colors">
+                                <Link to={'/join'} className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-700/50 dark:border-slate-700/50 bg-transparent px-4 text-sm font-bold text-white dark:text-white hover:bg-slate-700/30 transition-colors">
                                     <Users className='w-4 h-4'/>
                                     <span className="hidden sm:inline">Join a Circle</span>
                                     <span className="sm:hidden">Join</span>
-                                </button>
+                                </Link>
                                 <button className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
                                     <BadgePlus className='w-4 h-4'/>
                                     <span className="hidden sm:inline">Create New</span>
@@ -128,11 +129,10 @@ export default function AuthHome(){
 
                     <AnimatedList
                     items={postItems}
-                    showGradients={false}
-                    enableArrowNavigation={false}
+                    showGradients={true}
+                    enableArrowNavigation={true}
                     displayScrollbar={false}
                     initialSelectedIndex={-1}
-                    className='w-full'
                     />
 
                 </div>
