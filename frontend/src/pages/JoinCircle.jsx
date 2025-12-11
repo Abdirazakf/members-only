@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router"
 import { ThreeDot } from 'react-loading-indicators'
+import toast from "react-hot-toast"
 
 export default function Circle(){
     const [loading, setLoading] = useState(false)
@@ -8,6 +9,37 @@ export default function Circle(){
     const handleSubmit = async(event) => {
         event.preventDefault()
         setLoading(true)
+
+        const formData = new FormData(event.target)
+
+        const data = {
+            passcode: formData.get('passcode')
+        }
+
+        try {
+            const response = await fetch('/api/circle/join', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok){
+                if (result.message){
+                    toast.error(result.message)
+                } else {
+                    toast.error('Failed to Join Circle')
+                }
+            }
+        } catch(err){
+            console.error('Failed to Join Circle:', err)
+            toast.error('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -23,10 +55,10 @@ export default function Circle(){
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="circle_id" className="text-left text-white text-md font-large leading-normal">
+                        <label htmlFor="passcode" className="text-left text-white text-md font-large leading-normal">
                             Secret Password
                         </label>
-                        <input type="text" name="circle_id" id="circle_id" 
+                        <input type="text" name="passcode" id="passcode" 
                         placeholder="••••••••"
                         className="flex w-full rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 
                         border border-slate-600 bg-slate-700/50 h-12 px-4 text-base font-normal leading-normal 
