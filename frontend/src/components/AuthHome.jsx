@@ -23,7 +23,7 @@ export default function AuthHome(){
     const posts = [
         {
             id: 1,
-            username: `${user?.first_name} ${user?.last_name}`,
+            username: `${user.first_name} ${user.last_name}`,
             message: "This is the very first message on the platform. Welcome everyone!",
             time: "Posted 2 days ago",
             title: "First Post!"
@@ -81,7 +81,6 @@ export default function AuthHome(){
 
     return (
         <>
-            {/* Hero Section - matching GuestHome structure */}
             <div className="flex justify-center px-4 pt-8 md:px-6">
                 <div className="w-full max-w-3xl">
                     <div className="p-6 bg-slate-800/30 rounded-xl shadow-sm border border-slate-700/50 mb-8">
