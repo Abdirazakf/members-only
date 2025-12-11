@@ -10,6 +10,7 @@ import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Info from './pages/Info'
 import JoinCircle from "./pages/JoinCircle"
+import CreateCircle from './pages/CreateCircle'
 
 export default function App() {
     const checkAuth = useAuthStore((state) => state.checkAuth)
@@ -40,6 +41,13 @@ export default function App() {
                 element={
                     <AuthRoute>
                         <JoinCircle/>
+                    </AuthRoute>
+                } />
+
+                <Route path="/create"
+                element={
+                    <AuthRoute>
+                        <CreateCircle/>
                     </AuthRoute>
                 } />
 
