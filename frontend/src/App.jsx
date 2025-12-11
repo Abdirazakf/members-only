@@ -5,10 +5,11 @@ import {Toaster} from "react-hot-toast"
 import GuestRoute from './components/GuestRoute'
 import AuthRoute from './components/AuthRoute'
 import Navbar from "./components/Navbar"
-import Homepage from "./pages/Hompage"
+import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Info from './pages/Info'
+import JoinCircle from "./pages/JoinCircle"
 
 export default function App() {
     const checkAuth = useAuthStore((state) => state.checkAuth)
@@ -35,8 +36,14 @@ export default function App() {
                     </GuestRoute>
                 } />
 
+                <Route path="/join" 
+                element={
+                    <AuthRoute>
+                        <JoinCircle/>
+                    </AuthRoute>
+                } />
+
                 <Route path="/info" element={<Info />} />
-                
                 <Route path="/" element={<Homepage/>} />
             </Routes>
 
