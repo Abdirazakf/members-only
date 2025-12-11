@@ -159,7 +159,7 @@ export default function SignUp(){
                         focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-12 px-6 w-full 
                         text-white bg-[#3a4df7] hover:bg-primary/90 rounded-lg text-base font-semibold'>
                             {loading ? 
-                                <span>Creating Account...</span>
+                                <ThreeDot color="white" size="small" />
                                 : <span>Create Account</span>
                             }
                     </button>
