@@ -2,12 +2,52 @@ import { MoveRight } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router"
 import { Eye, EyeOff } from "lucide-react"
+import toast from "react-hot-toast"
 
 export default function CreateCircle(){
+    const [loading, setLoading] = useState(false)
     const [nameCount, setNameCount] = useState(0)
     const [descCount, setDescCount] = useState(0)
     const [passCount, setPassCount] = useState(0)
     const [visible, setVisible] = useState(false)
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        setLoading(true)
+
+        const formData = new FormData(event.target)
+
+        const data = {
+            circle_name: formData.get('circle_name'),
+            desc: formData.get('desc'),
+            passcode: formData.get('passcode')
+        }
+
+        try {
+            const response = await fetch('/api/circle/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok){
+                if (result.message){
+                    toast.error(result.message)
+                } else {
+                    toast.error('Failed to Create Circle')
+                }
+            }
+        } catch(err) {
+            console.err('Failed to Create Circle:', err)
+            toast.error('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div className="flex flex-col items-center gap-6 px-4 py-16 @[480]:gap-8">
@@ -24,7 +64,7 @@ export default function CreateCircle(){
                 <input type="text" name="fake_username" autoComplete="username" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }} tabIndex="-1" />
                 <input type="password" name="fake_password" autoComplete="new-password" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }} tabIndex="-1" />
                 
-                <form className="space-y-6" autoComplete="off">
+                <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
                     <div className="flex flex-col gap-3">
                         <div className="flex justify-between items-baseline">
                             <label htmlFor="circle_name" className="text-white text-sm font-semibold leading-normal">
@@ -101,7 +141,7 @@ export default function CreateCircle(){
                         text-white hover:bg-white/10 h-10 px-4 py-2 rounded-lg text-sm font-medium">
                             Cancel
                         </Link>
-                        <button type="submit" className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
+                        <button type="submit" disabled={loading} className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
                             <span className="hidden sm:inline">Create New</span>
                             <span className="sm:hidden">Create</span>
                             <MoveRight className='w-4 h-4'/>
