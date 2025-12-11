@@ -37,7 +37,7 @@ export default function GuestHome(){
 
     return(
         <>
-            <div className="flex flex-col gap-6 px-4 py-16 text-center @[480px]:gap-8">
+            <div className="flex flex-col gap-6 px-4 pt-16 text-center @[480px]:gap-8">
                 <div className="flex flex-col gap-2">
                     <h1 className="text-white text-4xl font-bold leading-tight tracking-tight">
                         Speak Freely, Connect Anonymously.
