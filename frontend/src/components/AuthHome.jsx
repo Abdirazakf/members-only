@@ -4,11 +4,13 @@ import { Link } from 'react-router'
 import {BadgePlus, Users, ChevronDown, PenLine} from 'lucide-react'
 import Post from './Post'
 import AnimatedList from './ui/AnimatedList'
+import Modal from './Modal'
 
 export default function AuthHome(){
     const {user} = useAuthStore()
     const [selected, setSelected] = useState('Select a Circle')
     const [isOpen, setIsOpen] = useState(false)
+    const [isModalOpen, setModalOpen] = useState(false)
 
     // Sample circles
     const circles = [
@@ -158,12 +160,14 @@ export default function AuthHome(){
             </div>
             
             <div className="fixed bottom-8 right-8 z-30">
-                <button className="flex h-14 cursor-pointer items-center justify-center gap-3 rounded-full bg-[#3a4df7] pl-5 pr-6 text-white shadow-lg hover:bg-[#2d3ec7] transition-colors">
+                <button onClick={() => setModalOpen(true)} className="flex h-14 cursor-pointer items-center justify-center gap-3 rounded-full bg-[#3a4df7] pl-5 pr-6 text-white shadow-lg hover:bg-[#2d3ec7] transition-colors">
                     <PenLine className="w-5 h-5" />
                     <span className="truncate text-base font-bold hidden sm:inline">Create New Message</span>
                     <span className="truncate text-base font-bold sm:hidden">Create</span>
                 </button>
             </div>
+
+            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
         </>
     )
 }
