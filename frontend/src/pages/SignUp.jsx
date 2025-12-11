@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {Eye, EyeOff} from 'lucide-react'
+import { ThreeDot } from 'react-loading-indicators'
 import toast from 'react-hot-toast'
 
 export default function SignUp(){
