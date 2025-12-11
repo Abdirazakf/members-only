@@ -1,6 +1,6 @@
 import { useAuthStore } from '../states/useAuthStore'
-import GuestHome from '../components/GuestHome'
-import AuthHome from '../components/AuthHome'
+import GuestHome from './GuestHome'
+import AuthHome from './AuthHome'
 import { ThreeDot } from 'react-loading-indicators'
 
 export default function Homepage(){
