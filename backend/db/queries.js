@@ -198,6 +198,57 @@ async function getCircleByName(name){
     return rows[0]
 }
 
+async function createMessage({userID, circleID, title, text}){
+    const client = await pool.connect()
+
+    try {
+        await client.query('BEGIN')
+
+        const isMember = await alreadyInCircle({userID, circleID})
+
+        if (!isMember){
+            await client.query('ROLLBACK')
+            return {
+                success: false,
+                message: 'You must be a member of this circle to post messages'
+            }
+        }
+
+        const newMessage = await client.query(
+            `INSERT INTO messages (title, text, user_id, circle_id)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, title, text, user_id, circle_id, created_at
+            `, [title, text, userID, circleID]
+        )
+
+        await client.query('COMMIT')
+
+        return {
+            success: true,
+            message: newMessage.rows[0]
+        }
+    } catch(err){
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
+}
+
+async function getCircleMessages(id){
+    const {rows} = await pool.query(
+        `SELECT m.id, m.title, m.text, m.created_at,
+        u.id AS user_id, u.first_name, u.last_name
+        FROM messages AS m
+        JOIN users AS u ON m.user_id = u.id
+        WHERE m.circle_id = $1
+        ORDER BY m.created_at DESC
+        `, [id]
+    )
+
+    return rows
+}
+
 module.exports = {
     checkEmail,
     createUser,
@@ -205,9 +256,12 @@ module.exports = {
     getUserByID,
     getCirclesByID,
     getUserCircles,
+    alreadyInCircle,
     createCircle,
     checkCirclePass,
     getCirclesByID,
     joinCircle,
-    getCircleByName
+    getCircleByName,
+    createMessage,
+    getCircleMessages
 }

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
+import {ThreeDot} from 'react-loading-indicators'
+import toast from 'react-hot-toast'
 
-export default function Modal({ isOpen, onClose }){
+export default function Modal({ isOpen, onClose, circleID }){
     const [titleCount, setTitleCount] = useState(0)
     const [textCount, setTextCount] = useState(0)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const dialog = document.getElementById('message-modal')
@@ -14,11 +17,48 @@ export default function Modal({ isOpen, onClose }){
         }
     }, [isOpen])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
+        setLoading(true)
 
-        console.log('New Message Submitted')
-        onClose()
+        const formData = new FormData(event.target)
+
+        const data = {
+            title: formData.get('title'),
+            message: formData.get('message'),
+            circle_id: circleID
+        }
+
+        try {
+            const response = await fetch('/api/message/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok){
+                if (result.errors){
+                    result.errors.forEach(error => {
+                        toast.error(error.msg)
+                    })
+                } else {
+                    toast.error('Failed to create message')
+                }
+            } else {
+                toast.success('Message sent successfully')
+                handleClose()
+                setTimeout(() => window.location.reload(), 500)
+            }
+        } catch {
+            toast.error('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     const handleClose = () => {
@@ -77,8 +117,15 @@ export default function Modal({ isOpen, onClose }){
                     </div>
                     <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 mt-4 pt-4 border-t border-slate-800">
                         <button type="submit" className="flex h-10 flex-1 sm:flex-initial cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#3a4df7] px-4 text-sm font-bold text-white hover:bg-[#2d3ec7] transition-colors">
-                            <span className="hidden sm:inline">Post Message</span>
-                            <span className="sm:hidden">Post</span>
+                            {loading ? (
+                                <ThreeDot color="white" size="small" />
+                                ) : (
+                                    <>
+                                        <span className="sm:hidden">Post</span> 
+                                        <span className="hidden sm:inline">Post Message</span>
+                                    </>
+                                )
+                            }
                         </button>
                         <button
                         onClick={handleClose}

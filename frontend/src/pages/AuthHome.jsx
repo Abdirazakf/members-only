@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useAuthStore } from '../states/useAuthStore'
 import { Link } from 'react-router'
 import {BadgePlus, Users, ChevronDown, PenLine} from 'lucide-react'
 import Post from '../components/Post'
@@ -8,12 +7,13 @@ import Modal from '../components/Modal'
 import toast from 'react-hot-toast'
 
 export default function AuthHome(){
-    const {user} = useAuthStore()
     const [selected, setSelected] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isModalOpen, setModalOpen] = useState(false)
     const [circles, setCircles] = useState([])
+    const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(true)
+    const [loadMessages, setLoadMessages] = useState(false)
 
     useEffect(() => {
         const fetchCircles = async () => {
@@ -43,65 +43,88 @@ export default function AuthHome(){
         fetchCircles()
     }, [])
 
-    const posts = [
-        {
-            id: 1,
-            username: `${user.first_name} ${user.last_name}`,
-            message: "This is the very first message on the platform. Welcome everyone!",
-            time: "Posted 2 days ago",
-            title: "First Post!"
-        },
-        {
-            id: 2,
-            username: "Jane Doe",
-            message: "Here is another example of a message post. The content is clearly separated and easy to read within its own card.",
-            time: "Posted 1 day ago",
-            title: "Another Message Title"
-        },
-        {
-            id: 3,
-            message: "The main text content of the post. This is where the full message body would be displayed for the user to read. Message Body continued if necessary.",
-            time: "Posted 5 hours ago",
-            title: "Message Title"
-        },
-        {
-            id: 4,
-            username: "John Smith",
-            message: "Just sharing some thoughts on the recent updates. Really enjoying the new features!",
-            time: "Posted 3 hours ago",
-            title: "Recent Updates"
-        },
-        {
-            id: 5,
-            username: "Sarah Johnson",
-            message: "Has anyone tried the new features? I'm curious about the performance improvements.",
-            time: "Posted 2 hours ago",
-            title: "Performance Question"
-        },
-        {
-            id: 6,
-            username: "Mike Chen",
-            message: "I've been working on a similar project and would love to share some insights with the community.",
-            time: "Posted 1 hour ago",
-            title: "Project Insights"
-        }
-    ]
+    useEffect(() => {
+        const fetchMessages = async () => {
+            if (!selected){
+                setMessages([])
+                return
+            }
 
-    const postItems = posts.map((post) => (
-        <Post 
-            key={post.id}
-            username={post.username}
-            message={post.message}
-            time={post.time}
-        />
-    ))
+            setLoadMessages(true)
+
+            try {
+                const response = await fetch(`/api/message/circle/${selected.id}`, {
+                    credentials: 'include'
+                })
+
+                const result = await response.json()
+
+                if (response.ok && result.success){
+                    setMessages(result.messages)
+                } else {
+                    toast.error('Failed to load messages')
+                    setMessages([])
+                }
+            } catch {
+                toast.error('Failed to load messages')
+                setMessages([])
+            } finally {
+                setLoadMessages(false)
+            }
+        }
+
+        fetchMessages()
+    }, [selected])
 
     const handleCircleSelect = (circle) => {
         setSelected(circle)
         setIsOpen(false)
     }
 
-    return (
+    const handleModalClose = () => {
+        setModalOpen(false)
+
+        if (selected){
+            const fetchMessages = async () => {
+                try {
+                    const response = await fetch(`/api/message/circle${selected.id}`, {
+                        credentials: 'include'
+                    })
+                    const result = await response.json()
+                    if (response.ok && result.success){
+                        setMessages(result.messages)
+                    }
+                } catch {
+                    console.error('Failed to refresh messages')
+                }
+            }
+            fetchMessages()
+        }
+    }
+
+    const formatTime = (timestamp) => {
+        const now = new Date()
+        const messageTime = new Date(timestamp)
+        const diffInSeconds = Math.floor((now - messageTime) / 1000)
+
+        if (diffInSeconds < 60) return 'Just now'
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`
+        if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`
+        return messageTime.toLocaleDateString()
+    }
+
+    const postItems = messages.map((post) => (
+        <Post 
+            key={post.id}
+            username={`${post.first_name} ${post.last_name}`}
+            message={post.text}
+            time={formatTime(post.created_at)}
+            title={post.title}
+        />
+    ))
+
+return (
         <>
             <div className="flex justify-center px-4 pt-8 md:px-6">
                 <div className="w-full max-w-3xl">
@@ -143,7 +166,7 @@ export default function AuthHome(){
                                                             key={circle.id}
                                                             onClick={() => handleCircleSelect(circle)}
                                                             className={`block w-full text-left px-4 py-2 text-sm ${
-                                                                selected.id === circle.id
+                                                                selected?.id === circle.id
                                                                     ? 'bg-slate-800 text-white font-semibold'
                                                                     : 'text-slate-300 hover:bg-slate-800/50'
                                                             } transition-colors`}
@@ -199,6 +222,23 @@ export default function AuthHome(){
                     {circles.length === 0 && !loading ? (
                         <div className="text-center py-12">
                             <p className="text-slate-400 text-lg mb-4">You're not a member of any circles yet</p>
+                            <div className="flex gap-4 justify-center flex-wrap">
+                                <Link to="/create" className="px-6 py-3 bg-[#3a4df7] text-white rounded-lg hover:bg-[#2d3ec7] transition-colors font-semibold">
+                                    Create a Circle
+                                </Link>
+                                <Link to="/join" className="px-6 py-3 border border-slate-700 text-white rounded-lg hover:bg-slate-800/50 transition-colors font-semibold">
+                                    Join a Circle
+                                </Link>
+                            </div>
+                        </div>
+                    ) : loadMessages ? (
+                        <div className="flex justify-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3a4df7]"></div>
+                        </div>
+                    ) : messages.length === 0 ? (
+                        <div className="text-center py-12">
+                            <p className="text-slate-400 text-lg mb-2">No messages yet in this circle</p>
+                            <p className="text-slate-500 text-sm">Be the first to post!</p>
                         </div>
                     ) : (
                         <AnimatedList
@@ -225,7 +265,7 @@ export default function AuthHome(){
                 </button>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+            <Modal isOpen={isModalOpen} onClose={handleModalClose} circleId={selected?.id} />
         </>
     )
 }
