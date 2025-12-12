@@ -6,7 +6,6 @@ import toast from 'react-hot-toast'
 
 export default function SignUp(){
     const [showPass, setShowPass] = useState(false)
-    const [showConfirmPass, setShowConfirmPass] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
@@ -137,7 +136,7 @@ export default function SignUp(){
                         <label htmlFor="confirm" className='text-white text-sm font-medium leading-normal'>Confirm Password</label>
                         <div className="relative">
                             <input 
-                                type={showConfirmPass ? "text" : "password"} 
+                                type={showPass ? "text" : "password"} 
                                 id='confirm'
                                 name='confirm'
                                 placeholder='Retype Password'
@@ -148,10 +147,10 @@ export default function SignUp(){
                             />
                             <button 
                                 type="button"
-                                onClick={() => setShowConfirmPass(!showConfirmPass)}
+                                onClick={() => setShowPass(!showPass)}
                                 className='absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors'
                             >
-                                {showConfirmPass ? <EyeOff className='w-5 h-5' /> : <Eye className='w-5 h-5' />}
+                                {showPass ? <EyeOff className='w-5 h-5' /> : <Eye className='w-5 h-5' />}
                             </button>
                         </div>
                     </div>
