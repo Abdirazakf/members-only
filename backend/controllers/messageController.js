@@ -79,7 +79,7 @@ exports.getMessages = async (req, res, next) => {
 
         const isMember = await db.alreadyInCircle({
             userID: req.user.id,
-            circleID: parseInt(circleID)
+            circleID: parseInt(circleId)
         })
 
         if (!isMember){
@@ -89,7 +89,7 @@ exports.getMessages = async (req, res, next) => {
             })
         }
 
-        const messages = await db.getCircleMessages(parseInt(circleID))
+        const messages = await db.getCircleMessages(parseInt(circleId))
 
         res.json({
             success: true,

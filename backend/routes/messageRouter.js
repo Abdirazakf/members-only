@@ -3,6 +3,6 @@ const messageRouter = Router()
 const {createMessage, getMessages} = require('../controllers/messageController')
 
 messageRouter.post('/create', createMessage)
-messageRouter.get('/circle/:circleID', getMessages)
+messageRouter.get('/circle/:circleId', getMessages)
 
 module.exports = messageRouter

@@ -87,7 +87,7 @@ export default function AuthHome(){
         if (selected){
             const fetchMessages = async () => {
                 try {
-                    const response = await fetch(`/api/message/circle${selected.id}`, {
+                    const response = await fetch(`/api/message/circle/${selected.id}`, {
                         credentials: 'include'
                     })
                     const result = await response.json()
@@ -265,7 +265,7 @@ return (
                 </button>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={handleModalClose} circleId={selected?.id} />
+            <Modal isOpen={isModalOpen} onClose={handleModalClose} circleID={selected?.id} />
         </>
     )
 }
