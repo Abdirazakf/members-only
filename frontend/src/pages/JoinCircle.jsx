@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { ThreeDot } from 'react-loading-indicators'
 import toast from "react-hot-toast"
 
 export default function Circle(){
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     const handleSubmit = async(event) => {
         event.preventDefault()
@@ -22,6 +23,7 @@ export default function Circle(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(data)
             })
 
@@ -33,6 +35,9 @@ export default function Circle(){
                 } else {
                     toast.error('Failed to Join Circle')
                 }
+            } else {
+                toast.success(`Joined ${result.name}`)
+                setTimeout(() => navigate('/'), 500)
             }
         } catch(err){
             console.error('Failed to Join Circle:', err)
