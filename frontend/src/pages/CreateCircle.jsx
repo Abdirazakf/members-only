@@ -9,6 +9,7 @@ export default function CreateCircle(){
     const [nameCount, setNameCount] = useState(0)
     const [descCount, setDescCount] = useState(0)
     const [passCount, setPassCount] = useState(0)
+    const [confirmCount, setConfirmCount] = useState(0)
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
 
@@ -21,7 +22,8 @@ export default function CreateCircle(){
         const data = {
             circle_name: formData.get('circle_name'),
             desc: formData.get('desc'),
-            passcode: formData.get('passcode')
+            passcode: formData.get('passcode'),
+            confirm: formData.get('confirm')
         }
 
         try {
@@ -130,6 +132,35 @@ export default function CreateCircle(){
                                 onChange={(e) => setPassCount(e.target.value.length)}
                                 maxLength={30}
                                 placeholder="Create a secret passcode" 
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden 
+                                    rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-white/20 bg-[#101622] h-12 
+                                    placeholder:text-neutral-500 p-2 text-base font-normal leading-normal transition-colors focus:border-primary"
+                                required
+                            />
+                            <button type="button" className="flex items-center justify-center absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 
+                            hover:text-white transition-colors" onClick={() => setVisible(!visible)}>
+                                {visible ? <EyeOff className='w-5 h-5'/> : <Eye className='w-5 h-5' />}
+                            </button>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        <div className="flex justify-between items-baseline">
+                            <label htmlFor="confirm" className="text-white text-sm font-semibold leading-normal">
+                                Confirm Passcode
+                            </label>
+                            <span className="text-white text-xs font-semibold leading-normal">{`${confirmCount}/30`}</span>
+                        </div>
+                        <div className="relative flex w-full flex-1 items-stretch">
+                            <input 
+                                type={visible ? "text" : "password"} 
+                                name="confirm" 
+                                id="confirm"
+                                autoComplete="new-password"
+                                data-lpignore="true"
+                                data-form-type="other"
+                                onChange={(e) => setConfirmCount(e.target.value.length)}
+                                maxLength={30}
+                                placeholder="Confirm secret passcode" 
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden 
                                     rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-white/20 bg-[#101622] h-12 
                                     placeholder:text-neutral-500 p-2 text-base font-normal leading-normal transition-colors focus:border-primary"
