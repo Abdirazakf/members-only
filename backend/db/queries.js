@@ -110,6 +110,94 @@ async function createCircle({id, name, description, passcode}){
     }
 }
 
+async function checkCirclePass({id, passcode}){
+    const {rows} = await pool.query(
+        `SELECT id, name, description, passcode
+        FROM circles
+        WHERE id = $1
+        `, [id]
+    )
+
+    if (rows.length === 0){
+        return null
+    }
+
+    const circle = rows[0]
+    const isMatch = await bcrypt.compare(passcode, circle.passcode)
+
+    return isMatch ? {
+        id: circle.id,
+        name: circle.name,
+        description: circle.description
+    } : null
+}
+
+async function alreadyInCircle({userID, circleID}){
+    const {rows} = await pool.query(
+        `SELECT id FROM user_circles
+        WHERE user_id = $1 AND circle_id = $2
+        `, [userID, circleID]
+    )
+
+    return rows.length > 0
+}
+
+async function joinCircle({userID, circleID}){
+    const client = await pool.connect()
+    
+    try {
+        await client.query('BEGIN')
+
+        const alreadyMember = await alreadyInCircle({userID, circleID})
+
+        if (alreadyMember){
+            await client.query('ROLLBACK')
+            return {
+                success: false,
+                message: 'You are already a member of this circle'
+            }
+        }
+
+        const result =  await client.query(
+            `INSERT INTO user_circles (user_id, circle_id)
+            VALUES ($1, $2)
+            RETURNING id, joined_at
+            `, [userID, circleID]
+        )
+
+        const info = await client.query(
+            `SELECT id, name, description
+            FROM circles
+            WHERE id = $1
+            `, [circleID]
+        )
+
+        await client.query('COMMIT')
+
+        return {
+            success: true,
+            circle: info.rows[0],
+            joined_at: result.rows[0].joined_at
+        }
+    } catch(err){
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
+}
+
+async function getCircleByName(name){
+    const {rows} = await pool.query(
+        `SELECT id, name, description, created_by, created_at
+        FROM circles
+        WHERE LOWER(name) = LOWER($1)
+        `, [name]
+    )
+
+    return rows[0]
+}
+
 module.exports = {
     checkEmail,
     createUser,
@@ -117,5 +205,9 @@ module.exports = {
     getUserByID,
     getCirclesByID,
     getUserCircles,
-    createCircle
+    createCircle,
+    checkCirclePass,
+    getCirclesByID,
+    joinCircle,
+    getCircleByName
 }
