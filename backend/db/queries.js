@@ -1,5 +1,6 @@
 require('dotenv').config()
 const pool = require('./pool')
+const bcrypt = require('bcryptjs')
 
 async function checkEmail(email){
     const {rows} = await pool.query(`
@@ -49,9 +50,72 @@ async function getUserByID(id) {
     return rows[0]
 }
 
+async function getCirclesByID(circleID){
+    const {rows} = await pool.query(
+        `SELECT c.*, u.first_name, u.last_name
+        FROM circles AS c
+        LEFT JOIN users AS u ON c.created_by = u.id
+        WHERE c.id = $1
+        `, [circleID]
+    )
+
+    return rows[0]
+}
+
+async function getUserCircles(id){
+    const {rows} = await pool.query(
+        `SELECT c.id, c.name, c.description, c.created_by, c.created_at, uc.joined_at,
+        u.first_name, u.last_name
+        FROM circles AS c
+        JOIN user_circles AS uc ON c.id = uc.circle_id
+        LEFT JOIN users AS u ON c.created_by = u.id
+        WHERE uc.user_id = $1
+        ORDER BY uc.joined_at DESC
+        `, [id]
+    )
+
+    return rows
+}
+
+async function createCircle({id, name, description, passcode}){
+    const client = await pool.connect()
+    
+    try {
+        await client.query('BEGIN')
+
+        const hashedPass = await bcrypt.hash(passcode, 10)
+
+        const newCircle = await client.query(
+            `INSERT INTO circles (name, description, passcode, created_by)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, name, description, created_at
+            `, [name, description, hashedPass, id]
+        )
+
+        const circleID = newCircle.rows[0].id
+
+        await client.query(
+            `INSERT INTO user_circles (user_id, circle_id)
+            VALUES ($1, $2)
+            `, [id, circleID]
+        )
+
+        await client.query('COMMIT')
+        return newCircle.rows[0]
+    } catch(err) {
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
+}
+
 module.exports = {
     checkEmail,
     createUser,
     getUser,
-    getUserByID
+    getUserByID,
+    getCirclesByID,
+    getUserCircles,
+    createCircle
 }
