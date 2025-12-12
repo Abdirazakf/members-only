@@ -8,7 +8,9 @@ const validateMessage = [
     body('title').trim().notEmpty().withMessage('Title is required')
     .isLength({min: 2, max: 100}).withMessage(titleErr),
     body('message').trim().notEmpty().withMessage('Message is required')
-    .isLength({min: 1, max: 255}).withMessage(messageErr)
+    .isLength({min: 1, max: 255}).withMessage(messageErr),
+    body('circle_id').notEmpty().withMessage('Circle ID is required')
+    .isInt().withMessage('Circle ID must be a valid integer')
 ]
 
 exports.createMessage = [
