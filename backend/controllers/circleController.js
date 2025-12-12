@@ -1,14 +1,20 @@
 const db = require('../db/queries')
 const {body, validationResult, matchedData} = require('express-validator')
-const nameErr = 'Circle name has to be less than 101 chars'
+const nameErr = 'Circle name is required'
 const descErr = 'Description must be less than 256 chars'
 const passErr = 'Passcode must be between 4 and 30 chars'
 
 const validateCreateCircle = [
-    body('circle_name').trim().notEmpty().withMessage('Circle name is required')
-    .isLength({max: 101}).withMessage(nameErr),
+    body('circle_name').trim().notEmpty().withMessage(nameErr)
+    .isLength({max: 101}).withMessage('Circle name has to be less than 101 chars'),
     body('desc').optional().trim().isLength({max: 255})
     .withMessage(descErr),
+    body('passcode').trim().notEmpty().withMessage('Passcode is required')
+    .isLength({min: 4, max: 30}).withMessage(passErr)
+]
+
+const validateJoinCircle = [
+    body('circle_name').trim().notEmpty().withMessage(nameErr),
     body('passcode').trim().notEmpty().withMessage('Passcode is required')
     .isLength({min: 4, max: 30}).withMessage(passErr)
 ]
@@ -80,14 +86,69 @@ exports.createCircle = [
     }
 ]
 
-exports.joinCircle = async(req, res, next) => {
-    try {
-        res.json({
-            success: false,
-            message: 'Join circle not implemented yet'
-        })
-    } catch(err) {
-        console.error('Join circle error:', err)
-        next(err)
+exports.joinCircle = [
+    validateJoinCircle,
+    async(req, res, next) => {
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()){
+            return res.status(400).json({
+                    success: false,
+                    errors: errors.array()
+                })
+        }
+
+        try {
+            if (!req.isAuthenticated()){
+                return res.status(401).json({
+                    success: false,
+                    message: 'You must be logged in to join a circle'
+                })
+            }
+
+            const {circle_name, passcode} = matchedData(req)
+
+            const circle = await db.getCircleByName(circle_name)
+
+            if (!circle){
+                return res.status(404).json({
+                    success: false,
+                    message: 'Circle not found. Please check the circle name'
+                })
+            }
+
+            const isPassValid = await db.checkCirclePass({
+                id: circle.id,
+                passcode: passcode
+            })
+
+            if (!isPassValid){
+                return res.status(401).json({
+                    success: false,
+                    message: 'Incorrect passcode. Try again.'
+                })
+            }
+
+            const result = await db.joinCircle({
+                userID: req.user.id,
+                circleID: circle.id
+            })
+
+            if (!result.success){
+                return res.status(400).json({
+                    success: false,
+                    message: result.message
+                })
+            }
+
+            res.status(200).json({
+                success: true,
+                message: `Joined ${result.circle.name} Successfully`,
+                circle: result.circle
+            })
+        } catch(err){
+            console.error('Join circle error:', err)
+            next(err)
+        }
     }
-} 
+]
