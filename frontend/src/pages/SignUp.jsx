@@ -42,8 +42,7 @@ export default function SignUp(){
                 toast.success('Account created successfully!')
                 setTimeout(() => navigate('/login'), 500)
             }
-        } catch(err){
-            console.error('Signup error:', err)
+        } catch {
             toast.error('Something went wrong. Please try again.')
         } finally {
             setLoading(false)
@@ -63,7 +62,6 @@ export default function SignUp(){
                 </div>
 
                 <form onSubmit={handleSubmit} className='space-y-6'>
-                {/* First and Last Name Row */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className='flex flex-col space-y-2'>
                             <label htmlFor="first_name" className="text-white text-sm font-medium leading-normal">First Name</label>
@@ -92,7 +90,6 @@ export default function SignUp(){
                         </div>
                     </div>
 
-                    {/* Email */}
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="email" className='text-white text-sm font-medium leading-normal'>Email</label>
                         <input
@@ -107,7 +104,6 @@ export default function SignUp(){
                         />
                     </div>
 
-                    {/* Password */}
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="pass" className='text-white text-sm font-medium leading-normal'>Password</label>
                         <div className='relative'>
@@ -131,7 +127,6 @@ export default function SignUp(){
                         </div>
                     </div>
 
-                    {/* Confirm Pass */}
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="confirm" className='text-white text-sm font-medium leading-normal'>Confirm Password</label>
                         <div className="relative">
