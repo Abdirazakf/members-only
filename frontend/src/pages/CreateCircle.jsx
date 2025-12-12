@@ -1,6 +1,6 @@
 import { MoveRight } from "lucide-react"
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { Eye, EyeOff } from "lucide-react"
 import toast from "react-hot-toast"
 
@@ -10,6 +10,7 @@ export default function CreateCircle(){
     const [descCount, setDescCount] = useState(0)
     const [passCount, setPassCount] = useState(0)
     const [visible, setVisible] = useState(false)
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -29,17 +30,23 @@ export default function CreateCircle(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(data)
             })
 
             const result = await response.json()
 
             if (!response.ok){
-                if (result.message){
-                    toast.error(result.message)
+                if (result.errors) {
+                    result.errors.forEach(error => {
+                        toast.error(error.msg)
+                    })
                 } else {
                     toast.error('Failed to Create Circle')
                 }
+            } else {
+                toast.success('Circle created successfully')
+                setTimeout(() => navigate('/'), 500)
             }
         } catch(err) {
             console.err('Failed to Create Circle:', err)
