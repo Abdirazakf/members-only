@@ -14,6 +14,7 @@ export default function Circle(){
         const formData = new FormData(event.target)
 
         const data = {
+            circle_name: formData.get('circle_name'),
             passcode: formData.get('passcode')
         }
 
@@ -36,7 +37,7 @@ export default function Circle(){
                     toast.error('Failed to Join Circle')
                 }
             } else {
-                toast.success(`Joined ${result.name}`)
+                toast.success(result.message || 'Successfully joined circle!')
                 setTimeout(() => navigate('/'), 500)
             }
         } catch(err){
@@ -55,15 +56,30 @@ export default function Circle(){
                             Join an Inner Circle
                         </h1>
                         <h2 className="font-display text-base font-normal leading-normal text-slate-600 dark:text-slate-400 @[480px]:text-lg">
-                            Enter the secret passcode below to become a member and see who wrote each post.
+                            Enter the circle name and secret passcode below to become a member and see who wrote each post.
                         </h2>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Fake fields to trick Chrome autocomplete */}
+                    <input type="text" name="fake_username" autoComplete="username" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }} tabIndex="-1" />
+                    <input type="password" name="fake_password" autoComplete="new-password" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }} tabIndex="-1" />
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="circle_name" className="text-left text-white text-md font-large leading-normal">
+                            Circle Name
+                        </label>
+                        <input type="text" name="circle_name" id="circle_name" 
+                        placeholder="Enter Circle's Name"
+                        className="flex w-full rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 
+                        border border-slate-600 bg-slate-700/50 h-12 px-4 text-base font-normal leading-normal 
+                        placeholder:text-slate-500 transition-colors focus:border-primary"
+                        required
+                        />
+                    </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="passcode" className="text-left text-white text-md font-large leading-normal">
                             Secret Password
                         </label>
-                        <input type="text" name="passcode" id="passcode" 
+                        <input type="password" name="passcode" id="passcode" 
                         placeholder="••••••••"
                         className="flex w-full rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary/50 
                         border border-slate-600 bg-slate-700/50 h-12 px-4 text-base font-normal leading-normal 
