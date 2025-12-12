@@ -52,7 +52,6 @@ export default function Modal({ isOpen, onClose, circleID }){
             } else {
                 toast.success('Message sent successfully')
                 handleClose()
-                setTimeout(() => window.location.reload(), 500)
             }
         } catch {
             toast.error('Something went wrong. Please try again.')
