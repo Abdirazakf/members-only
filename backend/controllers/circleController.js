@@ -10,7 +10,11 @@ const validateCreateCircle = [
     body('desc').optional().trim().isLength({max: 255})
     .withMessage(descErr),
     body('passcode').trim().notEmpty().withMessage('Passcode is required')
-    .isLength({min: 4, max: 30}).withMessage(passErr)
+    .isLength({min: 4, max: 30}).withMessage(passErr),
+    body('confirm').trim()
+    .custom((value, {req}) => {
+        return value === req.body.passcode
+    }).withMessage('Passcode Must Match')
 ]
 
 const validateJoinCircle = [
