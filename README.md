@@ -379,12 +379,12 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- [The Odin Project](https://www.theodinproject.com/) - Project inspiration
 - [Railway](https://railway.app/) - Hosting platform
 - [Tailwind CSS](https://tailwindcss.com/) - Styling framework
 - [Lucide Icons](https://lucide.dev/) - Icon library
-- [Reactbits](https://github.com/premieroctet/reactbits) - AnimatedList UI component
+- [Reactbits](https://reactbits.dev/) - AnimatedList UI component
 
 ---
 
 **Built with ❤️ by Abdirazak Farah**
+
