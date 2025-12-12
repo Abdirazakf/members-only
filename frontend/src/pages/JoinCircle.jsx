@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router"
 import { ThreeDot } from 'react-loading-indicators'
 import toast from "react-hot-toast"
 
-export default function Circle(){
+export default function JoinCircle(){
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
