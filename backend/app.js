@@ -10,6 +10,7 @@ const passport = require('./config/passport')
 const loginRouter = require('./routes/loginRouter')
 const signupRouter = require('./routes/signupRouter')
 const authRouter = require('./routes/authRouter')
+const circleRouter = require('./routes/circleRouter')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -58,6 +59,7 @@ app.use(express.json())
 app.use('/api/login', loginRouter)
 app.use('/api/sign-up', signupRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/circle', circleRouter)
 
 if (process.env.NODE_ENV === 'prod'){
     app.use(express.static(path.join(__dirname, '../frontend/dist')))
