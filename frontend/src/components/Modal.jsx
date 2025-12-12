@@ -51,6 +51,9 @@ export default function Modal({ isOpen, onClose, circleID }){
                 }
             } else {
                 toast.success('Message sent successfully')
+                event.target.reset()
+                setTitleCount(0)
+                setTextCount(0)
                 handleClose()
             }
         } catch {
@@ -61,8 +64,6 @@ export default function Modal({ isOpen, onClose, circleID }){
     }
 
     const handleClose = () => {
-        setTitleCount(0)
-        setTextCount(0)
         onClose()
     }
 
