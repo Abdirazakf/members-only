@@ -1,4 +1,4 @@
-# Members Only 🔒
+# Members Only
 
 A full-stack anonymous messaging platform where users can post messages anonymously to the public, but authenticated members can see who wrote each post. Built with React, Express.js, PostgreSQL, and deployed on Railway.
 
@@ -7,42 +7,42 @@ A full-stack anonymous messaging platform where users can post messages anonymou
 [![PostgreSQL](https://img.shields.io/badge/postgresql-14+-blue)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## 🚀 Live Demo
+## Live Demo
 
 **[View Live Application](https://members-only-1.up.railway.app/)**
 
-## ✨ Features
+## Features
 
-### 🎭 Anonymous Posting
+### Anonymous Posting
 - Create and share messages without revealing your identity to the public
 - Posts appear anonymous to non-members
 - Authenticated members can see the author's real name
 
-### 👥 Circle-Based Communities
+### Circle-Based Communities
 - Create private circles with secure passcodes
 - Join existing circles to participate in exclusive discussions
 - Multiple circles per user for different communities
 
-### 🔐 Authentication & Security
+### Authentication & Security
 - Secure user authentication with Passport.js
 - Password hashing with bcrypt
 - Session-based authentication with PostgreSQL session store
 - Protected routes and API endpoints
 
-### 💬 Real-Time Messaging
+### Real-Time Messaging
 - Create titled messages with character limits (100 chars for title, 255 for message)
 - View messages in reverse chronological order
 - Relative timestamps (e.g., "2 hours ago", "Just now")
 - Loading states and error handling
 
-### 🎨 Modern UI/UX
+### Modern UI/UX
 - Dark theme with slate color palette
 - Responsive design for mobile, tablet, and desktop
 - Smooth animations with Framer Motion
 - Loading skeletons and spinners
 - Toast notifications for user feedback
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 18** - UI library
@@ -69,14 +69,14 @@ A full-stack anonymous messaging platform where users can post messages anonymou
 - **Railway** - Hosting platform
 - **PostgreSQL on Railway** - Managed database
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 - Node.js (v18 or higher)
 - PostgreSQL (v14 or higher)
 - npm or yarn package manager
 
-## 🔧 Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the repository
 ```bash
@@ -161,7 +161,7 @@ npm start
 
 Visit `http://localhost:5173` to see the application.
 
-## 📦 Build for Production
+## Build for Production
 
 ### Frontend Build
 ```bash
@@ -178,7 +178,7 @@ cd backend
 NODE_ENV=prod
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Users Table
 ```sql
@@ -245,7 +245,7 @@ user_circles (
 - `POST /api/message/create` - Create new message
 - `GET /api/message/circle/:circleId` - Get messages for a circle
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 members-only/
@@ -309,7 +309,7 @@ members-only/
 └── README.md
 ```
 
-## 🎨 Design System
+## Design System
 
 ### Colors
 - **Primary Blue**: `#3a4df7` (buttons, accents)
@@ -325,7 +325,7 @@ members-only/
 - **Inputs**: `rounded-lg`, `h-12`, `border-slate-600`, `bg-slate-700/50`
 - **Loading**: `animate-pulse`, `bg-slate-700/50`
 
-## 🚀 Deployment to Railway
+## Deployment to Railway
 
 ### 1. Create Railway Project
 1. Go to [Railway.app](https://railway.app)
@@ -356,7 +356,7 @@ Railway will automatically:
 - Start the server (`npm start`)
 - Serve frontend from `frontend/dist/`
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -366,18 +366,18 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 👤 Author
+## Author
 
 **Abdirazak Farah**
 
 - GitHub: [@Abdirazakf](https://github.com/Abdirazakf)
 - Live Demo: [Members Only](https://members-only-1.up.railway.app/)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Railway](https://railway.app/) - Hosting platform
 - [Tailwind CSS](https://tailwindcss.com/) - Styling framework
@@ -386,5 +386,5 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Built with ❤️ by Abdirazak Farah**
+**Built by Abdirazak Farah**
 
